@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-primary: #1d4ed8; /* Azul */
+  --color-secondary: #9333ea; /* Roxo */
+  --color-accent: #f59e0b; /* Laranja */
+  --color-neutral: #64748b; /* Cinza */
+  --color-bg: #f3f4f6; /* Cor de fundo clara */
+  --color-text: #1f2937; /* Cor do texto */
+}
+
+[data-theme='dark'] {
+  --color-primary: #2563eb;
+  --color-secondary: #a855f7;
+  --color-accent: #fbbf24;
+  --color-neutral: #94a3b8;
+  --color-bg: #1e293b;
+  --color-text: #f1f5f9;
+}
