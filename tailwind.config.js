@@ -9,12 +9,19 @@ export default {
         './resources/views/**/*.blade.php',
         './resources/js/**/*.vue',
     ],
-
+    darkMode: 'class',
     theme: {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
+            bg: 'var(--color-bg)',
+            text: 'var(--color-text)',
+            primary: 'var(--color-primary)',
+            secondary: 'var(--color-secondary)',
+            accent: 'var(--color-accent)',
+            component: 'var(--color-component-bg)',
+            border: 'var(--color-border)',
         },
     },
 

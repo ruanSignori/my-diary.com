@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import Dropdown from '@/Components/Dropdown.vue';
-import DropdownLink from '@/Components/DropdownLink.vue';
+import DropdownItem from '@/Components/DropdownItem.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import SwitchTheme from '@/Components/SwitchTheme.vue';
 import { Link } from '@inertiajs/vue3';
+import Dropdown from '@/Components/Dropdown.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -16,8 +18,9 @@ const showingNavigationDropdown = ref(false);
     <div>
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
             <nav
-                class="border-b border-gray-100 bg-white dark:border-gray-700 dark:bg-gray-800"
+                class="border-b border-gray-300 bg-white dark:border-gray-700 dark:bg-gray-800"
             >
+
                 <!-- Primary Navigation Menu -->
                 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div class="flex h-16 justify-between">
@@ -59,22 +62,26 @@ const showingNavigationDropdown = ref(false);
                                                     {{$page.props.auth.user.name}}
                                                     <Icon icon="ri:arrow-down-s-line" width="18" height="18" />
                                                 </button>
+
                                             </span>
                                         </template>
 
                                         <template #content>
-                                            <DropdownLink
+                                            <DropdownItem >
+                                              <SwitchTheme />
+                                            </DropdownItem>
+                                            <DropdownItem
                                                 :href="route('profile.edit')"
                                             >
                                                 Profile
-                                            </DropdownLink>
-                                            <DropdownLink
+                                            </DropdownItem>
+                                            <DropdownItem
                                                 :href="route('logout')"
                                                 method="post"
                                                 as="button"
                                             >
                                                 Log Out
-                                            </DropdownLink>
+                                            </DropdownItem>
                                         </template>
                                     </Dropdown>
                                 </div>
@@ -82,9 +89,14 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Conditional: User Not Logged In -->
                             <template v-else>
-                                <Link :href="route('login')" class="text-md font-medium leading-5 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 focus:outline-none focus:text-gray-700 dark:focus:text-gray-300">
-                                    Login
+                              <div class="flex gap-2">
+                                <Link :href="route('login')">
+                                  <PrimaryButton>Entrar</PrimaryButton>
                                 </Link>
+                                <Link :href="route('register')">
+                                  <SecondaryButton>Cadastrar</SecondaryButton>
+                                </Link>
+                              </div>
                             </template>
                         </div>
 
@@ -130,6 +142,7 @@ const showingNavigationDropdown = ref(false);
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Responsive Navigation Menu -->
                 <div
