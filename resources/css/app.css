@@ -12,7 +12,7 @@
   --color-border: #D1D5DB;
 }
 
-[data-theme="dark"] {
+.dark {
   --color-bg: #1A1A1A;
   --color-text: #E5E7EB;
   --color-primary: #00DDB3;

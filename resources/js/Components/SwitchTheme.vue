@@ -2,7 +2,7 @@
 import { ref, watchEffect } from 'vue';
 import { Icon } from '@iconify/vue';
 
-const isDark = ref(localStorage.getItem('theme') === 'dark' || false);
+const isDark = ref(localStorage.getItem('theme') === 'dark');
 
 const toggleTheme = () => {
   if (isDark.value) {
