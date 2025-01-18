@@ -4,8 +4,20 @@
 
 :root {
   --color-bg: #F9FAFB;
+  --color-bg-light: #FFFFFF;
+  --color-bg-dark: #D1D5DB;
+  --color-bg-lighter: #F3F4F6;
+  --color-bg-darker: #E5E7EB;
+  --color-bg-desaturated: #F1F5F9;
+  --color-bg-muted: #EDEDED;
+
   --color-text: #1F2937;
   --color-primary: #00DDB3;
+  --color-primary-light: #4EF2D0;
+  --color-primary-dark: #009F86;
+  --color-primary-darker: #007A5C;
+  --color-primary-lighter: #8BF1D9;
+  --color-primary-desaturated: #4DC3A8;
   --color-secondary: #38BDF8;
   --color-accent: #F472B6;
   --color-component-bg: #E5E7EB;
@@ -14,8 +26,22 @@
 
 .dark {
   --color-bg: #1A1A1A;
+  --color-bg-light: #333333;
+  --color-bg-dark: #0D0D0D;
+  --color-bg-lighter: #4D4D4D;
+  --color-bg-darker: #000000;
+  --color-bg-desaturated: #2E2E2E;
+  --color-bg-muted: #242424;
+
   --color-text: #E5E7EB;
+
   --color-primary: #00DDB3;
+  --color-primary-light: #4EF2D0;
+  --color-primary-dark: #009F86;
+  --color-primary-darker: #007A5C;
+  --color-primary-lighter: #8BF1D9;
+  --color-primary-desaturated: #4DC3A8;
+
   --color-secondary: #2563EB;
   --color-accent: #DB2777;
   --color-component-bg: #374151;
