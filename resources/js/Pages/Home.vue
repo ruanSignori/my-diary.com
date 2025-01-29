@@ -6,5 +6,11 @@ import { Head } from '@inertiajs/vue3';
 
 <template>
     <Head title="Home"></Head>
-    <HeaderLayout />
+    <HeaderLayout>
+      <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                Página inicial
+            </h2>
+      </template>
+    </HeaderLayout>
 </template>
