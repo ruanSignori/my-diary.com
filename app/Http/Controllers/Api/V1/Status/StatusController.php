@@ -3,21 +3,29 @@
 namespace App\Http\Controllers\Api\V1\Status;
 
 use App\Http\Controllers\Controller;
+use App\Services\StatusService;
 use Illuminate\Http\JsonResponse;
 
 class StatusController extends Controller
 {
+  protected StatusService $statusService;
+
+  public function __construct(StatusService $statusService)
+  {
+      $this->statusService = $statusService;
+  }
+
   public function index(): JsonResponse
   {
-    $server = [
-      'version' => phpversion(),
-      'timezone' => date_default_timezone_get(),
-      'current_timestamp' =>  date('Y-m-d H:i:s')
+    $response = [
+        'status' => 'success',
+        'code' => 200,
+        'message' => 'System status retrieved successfully',
+        'data' => [
+            'server' => $this->statusService->getServerStatus(),
+        ],
     ];
 
-     $response = [
-      'server' => $server
-    ];
     return response()->json($response, 200);
   }
 }
