@@ -78,7 +78,7 @@ const submit = () => {
 
             <div class="mt-4 flex items-center justify-center flex-col gap-4">
                 <PrimaryButton
-                    class="w-full text-center"
+                    class="w-full text-center py-3"
                     :class="{ 'opacity-25': form.processing }"
                     :disabled="form.processing"
                 >
