@@ -29,7 +29,7 @@ const submit = () => {
 
 <template>
     <GuestLayout>
-        <Head title="Log in" />
+        <Head title="Entrar" />
 
         <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
             {{ status }}
@@ -94,7 +94,7 @@ const submit = () => {
                 </Link>
 
                 <div>
-                    <span>
+                    <span class="text-sm">
                         Não possui uma conta?
                     </span>
                     <Link
@@ -102,7 +102,7 @@ const submit = () => {
                         :href="route('register')"
                         class="rounded-md text-sm text-primary-desaturated underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2"
                     >
-                        Register
+                        Cadastrar-se
                     </Link>
                 </div>
             </div>

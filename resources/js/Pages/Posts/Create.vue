@@ -3,6 +3,7 @@ import AuthenticatedLayout from '@/Layouts/HeaderLayout.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import InputLabel from '@/Components/InputLabel.vue';
+import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
@@ -63,10 +64,10 @@ const createPost = () => {
                     />
                   </div>
 
-                  <div class="max-w-xl">
+                  <div class="max-w-sm">
                     <InputLabel
                       for="postCategory"
-                      value="Gategoria do Post"
+                      value="Categoria"
                       :input-required="true"
                     />
 
@@ -82,6 +83,10 @@ const createPost = () => {
                     <InputError
                         class="mt-2"
                     />
+                  </div>
+                  
+                  <div class="max-w-full">
+                    <RichTextEditor />
                   </div>
                 </form>
               </section>
