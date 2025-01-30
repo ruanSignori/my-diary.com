@@ -19,8 +19,6 @@ class StatusController extends Controller
   {
     $response = [
         'status' => 'success',
-        'code' => 200,
-        'message' => 'System status retrieved successfully',
         'data' => [
             'server' => $this->statusService->getServerStatus(),
         ],
