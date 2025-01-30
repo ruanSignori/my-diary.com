@@ -45,10 +45,20 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
-                        <div class="hidden sm:ms-6 sm:flex sm:items-center">
+                        <div class="hidden-6 sm:flex sm:items-center">
                             <!-- Conditional: User Logged In -->
                             <template v-if="$page.props.auth.user">
                                 <!-- Settings Dropdown -->
+
+                                <Link
+                                  :href="route('posts.create')"
+                                >
+                                  <PrimaryButton>
+                                    <Icon icon="ri:add-fill" width="18" height="18" />
+                                    Post
+                                  </PrimaryButton>
+                                </Link>
+
                                 <div class="relative ms-3">
                                     <Dropdown align="right" width="48">
                                         <template #trigger>

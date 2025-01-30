@@ -1,0 +1,92 @@
+<script setup lang="ts">
+import AuthenticatedLayout from '@/Layouts/HeaderLayout.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/Components/InputError.vue';
+import InputLabel from '@/Components/InputLabel.vue';
+import { useForm } from '@inertiajs/vue3';
+import { Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+const postTtileInput = ref<HTMLInputElement | null>(null);
+
+const form = useForm({
+    postTtileInput: '',
+    postCategoryInput: '',
+});
+
+const createPost = () => {
+    console.log('create post');
+};
+
+</script>
+
+<template>
+  <Head title="Novo post" />
+
+  <AuthenticatedLayout>
+    <template #header>
+        <h2
+            class="text-xl font-semibold leading-tight text-gray-800"
+        >
+            Criar nova postagem
+        </h2>
+    </template>
+
+    <div class="py-12">
+        <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+            <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8">
+              <p class="mt-1 text-sm text-gray-600">
+                Os campos marcados com um asterisco (*) são obrigatórios.
+              </p>
+              <section>
+                <form @submit.prevent="createPost" class="space-y-6 mt-6">
+                  <div class="max-w-xl">
+                    <InputLabel
+                      for="postTitle"
+                      value="Título do Post"
+                      :input-required="true"
+                    />
+
+                    <TextInput
+                        id="postTitle"
+                        ref="postTtileInput"
+                        type="text"
+                        class="mt-1 block w-full"
+                        autocomplete="post-title"
+                        required
+                        autofocus
+                        v-model="form.postTtileInput"
+                    />
+
+                    <InputError
+                        class="mt-2"
+                    />
+                  </div>
+
+                  <div class="max-w-xl">
+                    <InputLabel
+                      for="postCategory"
+                      value="Gategoria do Post"
+                      :input-required="true"
+                    />
+
+                    <TextInput
+                        id="postCategory"
+                        ref="postCategoryInput"
+                        type="text"
+                        class="mt-1 block w-full"
+                        required
+                        v-model="form.postCategoryInput"
+                    />
+
+                    <InputError
+                        class="mt-2"
+                    />
+                  </div>
+                </form>
+              </section>
+            </div>
+        </div>
+    </div>
+  </AuthenticatedLayout>
+</template>
