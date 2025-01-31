@@ -13,6 +13,7 @@ const postTtileInput = ref<HTMLInputElement | null>(null);
 const form = useForm({
     postTtileInput: '',
     postCategoryInput: '',
+    postContent: ''
 });
 
 const createPost = () => {
@@ -84,9 +85,18 @@ const createPost = () => {
                         class="mt-2"
                     />
                   </div>
-                  
+
                   <div class="max-w-full">
-                    <RichTextEditor />
+                    <InputLabel
+                      for="postContent"
+                      value="Conteúdo do Post"
+                      :input-required="true"
+                    />
+
+                    <RichTextEditor
+                      class="mt-1 "
+                      id="postContent"
+                    />
                   </div>
                 </form>
               </section>

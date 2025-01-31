@@ -1,31 +1,65 @@
+<script setup lang="ts">
+import { ref } from 'vue';
+import { QuillEditor } from '@vueup/vue-quill';
 
-<script>
-    import { Editor, EditorContent } from '@tiptap/vue-3'
-    import StarterKit from '@tiptap/starter-kit'
+// @ts-ignore
+import MarkdownShortcuts from 'quill-markdown-shortcuts';
+import BlotFormatter from 'quill-blot-formatter'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
-    export default {
-        components: {
-            EditorContent,
-        },
 
-        data() {
-            return {
-                editor: null,
-            }
-        },
-
-        mounted() {
-            this.editor = new Editor({
-                content: "<h1>I'm running Tiptap with Vue.js. 🎉</h1>",
-                extensions: [StarterKit],
-            })
-        },
-
-        beforeUnmount() {
-            this.editor.destroy()
-        },
-    }
+const content = ref('');
+const modules = [
+  {
+    name: 'blotFormatter',
+    module: BlotFormatter
+  },
+  {
+    name: 'markdownShortcuts',
+    module: MarkdownShortcuts
+  }
+]
 </script>
+
 <template>
-    <editor-content :editor="editor" />
+  <div>
+    <QuillEditor
+      class="!rounded-md !rounded-t-none border-gray-300 shadow-sm"
+      v-model:content="content"
+      theme="snow"
+      toolbar="#my-toolbar"
+      placeholder="Digite algo..."
+      :modules="modules">
+      <template #toolbar>
+        <div id="my-toolbar" class="rounded-md rounded-b-none bg-bg shadow-sm p-2 ">
+          <!-- Headers -->
+          <select class="ql-header" title="Título">
+            <option selected></option>
+            <option value="1">Header 1</option>
+            <option value="2">Header 2</option>
+            <option value="3">Header 3</option>
+          </select>
+
+          <!-- Bold, Italic, Underline -->
+          <button class="ql-bold" title="Negrito"></button>
+          <button class="ql-italic" title="Itálico"></button>
+          <button class="ql-underline" title="Sublinhado"></button>
+
+          <!-- Blockquote (Citação) -->
+          <button class="ql-blockquote" title="Citação"></button>
+
+          <!-- Listas -->
+          <button class="ql-list" value="ordered" title="Lista ordenada"></button>
+          <button class="ql-list" value="bullet" title="Lista não ordenada"></button>
+
+        </div>
+      </template>
+    </QuillEditor>
+  </div>
 </template>
+
+<style>
+.ql-editor {
+  min-height: 300px;
+}
+</style>
