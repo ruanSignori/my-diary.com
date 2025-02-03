@@ -15,7 +15,7 @@ return new class extends Migration
       Schema::create('posts', function (Blueprint $table) {
         $table->uuid('id')->default(DB::raw('gen_random_uuid()'));;
         $table->string('title');
-        $table->string('slug', 100);
+        $table->string('slug', 50);
         $table->longText('content');
         $table->foreignId('owner_id')->constrained('users','id')
               ->onDelete('cascade');
