@@ -1,9 +1,9 @@
 ## Instalação
 ```bash
-composer install && npm install \
+composer install && npm install
 cp .env.example .env
+sudo chmod 777 storage
 cp docker/.env.dev docker/.env
-php artisan key:generate
 php artisan migrate
 ```
 
