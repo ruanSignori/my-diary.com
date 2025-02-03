@@ -2,6 +2,7 @@
 ```bash
 composer install && npm install \
 cp .env.example .env
+cp docker/.env.dev docker/.env
 php artisan key:generate
 php artisan migrate
 ```
@@ -11,3 +12,7 @@ php artisan migrate
 composer run dev
 ```
 
+## Configurar o pgAdmin
+Para conecatr o pgAdmin ao banco de dados, insira as configurações conforme exemplo abaixo:
+
+![Configuração pdAdmin](docs/images/image.png)
