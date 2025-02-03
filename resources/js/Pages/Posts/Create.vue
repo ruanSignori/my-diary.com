@@ -7,6 +7,7 @@ import RichTextEditor from '@/Components/RichTextEditor.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 
 const postTtileInput = ref<HTMLInputElement | null>(null);
 
@@ -98,6 +99,10 @@ const createPost = () => {
                       id="postContent"
                     />
                   </div>
+
+                  <PrimaryButton type="submit">
+                    Salvar
+                  </PrimaryButton>
                 </form>
               </section>
             </div>
