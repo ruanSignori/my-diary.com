@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch, defineProps, defineEmits } from 'vue';
 import { QuillEditor } from '@vueup/vue-quill';
 
 // @ts-ignore
@@ -7,8 +7,19 @@ import MarkdownShortcuts from 'quill-markdown-shortcuts';
 import BlotFormatter from 'quill-blot-formatter'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
+const props = defineProps<{
+  modelValue: string;
+}>();
 
-const content = ref('');
+const emit = defineEmits(['update:modelValue']);
+
+const content = ref(props.modelValue);
+
+const updateContent = (quillContent: string) => {
+  content.value = quillContent;
+  emit('update:modelValue', quillContent);
+};
+
 const modules = [
   {
     name: 'blotFormatter',
@@ -18,15 +29,17 @@ const modules = [
     name: 'markdownShortcuts',
     module: MarkdownShortcuts
   }
-]
+];
 </script>
 
 <template>
   <div>
     <QuillEditor
       class="!rounded-md !rounded-t-none border-gray-300 shadow-sm"
-      v-model:content="content"
+      :content="content"
+      @update:content="updateContent"
       theme="snow"
+      content-type="html"
       toolbar="#my-toolbar"
       placeholder="Digite algo..."
       :modules="modules">
@@ -51,7 +64,6 @@ const modules = [
           <!-- Listas -->
           <button class="ql-list" value="ordered" title="Lista ordenada"></button>
           <button class="ql-list" value="bullet" title="Lista não ordenada"></button>
-
         </div>
       </template>
     </QuillEditor>

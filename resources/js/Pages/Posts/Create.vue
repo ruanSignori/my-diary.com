@@ -18,7 +18,7 @@ const form = useForm({
 });
 
 const createPost = () => {
-    console.log('create post');
+    console.log(form)
 };
 
 </script>
@@ -97,6 +97,7 @@ const createPost = () => {
                     <RichTextEditor
                       class="mt-1 "
                       id="postContent"
+                      v-model="form.postContent"
                     />
                   </div>
 
