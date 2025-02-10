@@ -9,7 +9,7 @@ import { Head } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import axios from 'axios';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { getCsrfToken } from '@/helpers/getCsrfToken';
+import { getCsrfToken } from '@/Helpers/getCsrfToken';
 
 type PostData = {
   postTitleInput: string;

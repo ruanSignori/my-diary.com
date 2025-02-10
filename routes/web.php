@@ -16,7 +16,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class)->except('show')->missing(function () {
         return Inertia::render('404');
     });
-    Route::get('/posts/{author_id}/{slug}', [PostController::class, 'show'])->name('posts.show');
+    Route::get('/posts/{author}/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
 
 require __DIR__.'/auth.php';

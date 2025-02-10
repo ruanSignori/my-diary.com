@@ -21,12 +21,12 @@ class Post extends Model
       return $this->belongsTo(User::class, 'author_id');
   }
 
-  public static function findByOwnerAndSlug($ownerId, string $slug): Post
+  public static function findByOwnerAndSlug(string $userName, string $slug): Post
   {
-    $data = self::select('posts.*', 'users.name as author')
+    $data = self::select('posts.id', 'users.name as author', 'posts.title', 'posts.slug', 'posts.content', 'posts.created_at')
                 ->join('users', 'posts.author_id', '=', 'users.id')
-                ->where('author_id', $ownerId)
-                ->where('slug', $slug)
+                ->where('users.name', $userName)
+                ->where('posts.slug', $slug)
                 ->first();
     return $data;
   }
