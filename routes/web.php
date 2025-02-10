@@ -13,9 +13,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('posts', PostController::class)->missing(function () {
+    Route::resource('posts', PostController::class)->except('show')->missing(function () {
         return Inertia::render('404');
     });
+    Route::get('/posts/{author_id}/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
 
 require __DIR__.'/auth.php';
