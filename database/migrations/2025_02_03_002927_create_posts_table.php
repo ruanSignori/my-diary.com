@@ -13,13 +13,13 @@ return new class extends Migration
     public function up(): void
     {
       Schema::create('posts', function (Blueprint $table) {
-        $table->uuid('id')->default(DB::raw('gen_random_uuid()'));;
+        $table->id('id');
         $table->string('title');
-        $table->string('slug', 50);
+        $table->string('slug');
         $table->longText('content');
         $table->foreignId('owner_id')->constrained('users','id')
               ->onDelete('cascade');
-        $table->timestamps();
+        $table->timestampsTz();
 
     });
     }
