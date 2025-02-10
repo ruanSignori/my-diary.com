@@ -19,7 +19,7 @@ return new class extends Migration
         $table->longText('content');
         $table->foreignId('author_id')->constrained('users','id');
         $table->timestampsTz();
-
+        $table->index(['author_id']);
     });
     }
 

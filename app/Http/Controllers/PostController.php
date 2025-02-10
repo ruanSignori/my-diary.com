@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\Posts\StorePostRequest;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -28,18 +28,18 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
       $data = $request->validated();
-      $author_id = User::find(Auth::id());
+      $user = User::find(Auth::id());
 
       try {
         $post = Post::create([
           'title' => $data['postTitleInput'],
-          'author_id' => $author_id->id,
+          'author_id' => $user->id,
           'slug' => Str::slug($data['postTitleInput']),
           'category' => $data['postCategoryInput'],
           'content' => $data['postContent'],
         ]);
 
-        return redirect()->route('posts.show', [$post->author_id, $post->slug], 303);
+        return redirect()->route('posts.show', [$user->name, $post->slug], 303);
 
       } catch (\Exception $e) {
         return response()->json([
@@ -51,9 +51,9 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($author_id, $slug)
+    public function show(string $author, string $slug)
     {
-        $post = Post::findByOwnerAndSlug($author_id, $slug);
+        $post = Post::findByOwnerAndSlug($author, $slug);
 
         if (!$post) {
           return Inertia::render('404');
