@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Requests\User;
+
+use App\Models\User;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+
+class ProfileUpdateRequest extends FormRequest
+{
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+            'name' => 'required|string|max:255|unique|regex:/^[^\s]+$/'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'name' => 'Nome',
+            'email' => 'E-mail',
+            'password' => 'Senha',
+        ];
+    }
+
+    public function messages(): array
+    {
+      return [
+        'required' => 'O campo :attribute é obrigatório.',
+        'max' => 'O campo :attribute contém muitos caracteres',
+        'unique' => 'O campo :attribute já está em uso.',
+        'email' => 'O campo :attribute deve ser um e-mail válido.',
+        'regex' => 'O campo :attribute não pode conter espaços.',
+      ];
+    }
+}
