@@ -22,7 +22,7 @@ class PostFactory extends Factory
             'title' => 'Post de exemplo, by: ' . fake()->name(),
             'slug' => Str::slug(fake()->name()),
             'content' => 'Hello World',
-            'owner_id' => User::first()
+            'author_id' => User::first()
         ];
     }
 }

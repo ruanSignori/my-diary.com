@@ -13,7 +13,14 @@ class Post extends Model
     'title',
     'slug',
     'content',
-    'owner_id'
+    'author_id'
   ];
+
+  public static function findByOwnerAndSlug($ownerId, string $slug): Post
+  {
+      return self::where('author_id', $ownerId)
+                 ->where('slug', $slug)
+                 ->first();
+  }
 
 }

@@ -28,36 +28,38 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
       $data = $request->validated();
-      $owner_post = User::find(Auth::id());
+      $author_id = User::find(Auth::id());
 
       try {
-
         $post = Post::create([
           'title' => $data['postTitleInput'],
-          'owner_id' => $owner_post->id,
+          'author_id' => $author_id->id,
           'slug' => Str::slug($data['postTitleInput']),
           'category' => $data['postCategoryInput'],
           'content' => $data['postContent'],
         ]);
 
-        return redirect()->route('posts.show', $post->id, 303);
+        return redirect()->route('posts.show', [$post->author_id, $post->slug], 303);
 
       } catch (\Exception $e) {
         return response()->json([
           'message' => 'Error: ' . $e->getMessage(),
         ], 500);
       }
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id, )
+    public function show($author_id, $slug)
     {
-        return response()->json([
-          'message' => 'show post with id: ' . $id,
-        ]);
+        $post = Post::findByOwnerAndSlug($author_id, $slug);
+
+        if (!$post) {
+          return Inertia::render('404');
+        }
+
+        return response()->json($post);
     }
 
     /**
