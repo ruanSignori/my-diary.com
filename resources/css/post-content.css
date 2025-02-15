@@ -1,0 +1,19 @@
+@layer components {
+  .post-content {
+    @apply prose prose-lg dark:prose-invert max-w-none leading-relaxed;;
+  }
+}
+
+.post-content p {
+  @apply leading-tight;
+}
+.post-content ul,
+.post-content ol {
+  @apply space-y-1;
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3 {
+  @apply mt-4 mb-2 leading-snug;
+}

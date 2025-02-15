@@ -1,3 +1,5 @@
+@import './post-content.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,3 +26,5 @@
   --color-component-bg: #E5E7EB;
   --color-border: #D1D5DB;
 }
+
+
