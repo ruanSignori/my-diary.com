@@ -39,7 +39,8 @@ class PostController extends Controller
           'content' => $data['postContent'],
         ]);
 
-        return redirect()->route('posts.show', [$user->name, $post->slug], 303);
+        return redirect()->route('posts.show', [$user->name, $post->slug], 303)
+                         ->with('success', "Post $post->title criado com sucesso");
 
       } catch (\Exception $e) {
         return response()->json([
@@ -59,7 +60,10 @@ class PostController extends Controller
           return Inertia::render('404');
         }
 
-        return response()->json($post);
+        return Inertia::render('Posts/PostView', [
+          'post' => $post,
+          session('success') ? 'success' : null,
+        ]);
     }
 
     /**
