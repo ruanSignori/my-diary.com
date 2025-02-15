@@ -1,5 +1,6 @@
 import defaultTheme from 'tailwindcss/defaultTheme';
 import forms from '@tailwindcss/forms';
+import typografy from '@tailwindcss/typography';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -23,7 +24,7 @@ export default {
                 lighter: 'var(--color-bg-lighter)',
                 darker: 'var(--color-bg-darker)',
                 desaturated: 'var(--color-bg-desaturated)',
-                muted: 'var(--color-bg-muted)',       
+                muted: 'var(--color-bg-muted)',
               },
               text: 'var(--color-text)',
               primary: {
@@ -42,5 +43,5 @@ export default {
         },
     },
 
-    plugins: [forms],
+    plugins: [forms,  typografy,],
 };
