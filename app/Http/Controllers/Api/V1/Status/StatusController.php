@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api\V1\Status;
 
 use App\Http\Controllers\Controller;
+use App\Services\ResponseService;
 use App\Services\StatusService;
-use Illuminate\Http\JsonResponse;
 
 class StatusController extends Controller
 {
@@ -15,15 +15,10 @@ class StatusController extends Controller
       $this->statusService = $statusService;
   }
 
-  public function index(): JsonResponse
+  public function index()
   {
-    $response = [
-        'status' => 'success',
-        'data' => [
-            'server' => $this->statusService->getServerStatus(),
-        ],
-    ];
-
-    return response()->json($response, 200);
+    return ResponseService::success([
+      'server' => $this->statusService->getServerStatus(),
+    ]);
   }
 }
