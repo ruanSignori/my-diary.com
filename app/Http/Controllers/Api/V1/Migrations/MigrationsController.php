@@ -23,6 +23,6 @@ class MigrationsController extends Controller
 
        return ResponseService::success([
         'migrations' => $doneMigrations
-      ]);
+      ], 201);
     }
 }
