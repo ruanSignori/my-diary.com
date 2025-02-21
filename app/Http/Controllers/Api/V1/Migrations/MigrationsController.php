@@ -20,9 +20,10 @@ class MigrationsController extends Controller
     public function store()
     {
       $doneMigrations = MigrationsService::runPendingMigrations();
+      $statusCode = count($doneMigrations) > 0 ? 201 : 200;
 
        return ResponseService::success([
         'migrations' => $doneMigrations
-      ], 201);
+      ], $statusCode);
     }
 }
