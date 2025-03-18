@@ -1,6 +1,6 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "anottations/laravel",
     "type": "project",
     "description": "The skeleton application for the Laravel framework.",
     "keywords": ["laravel", "framework"],
@@ -53,7 +53,7 @@
         ],
         "dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"npm run dev\" \"docker compose -f docker/docker-compose-dev.yml up --build\""
+            "docker compose -f docker/docker-compose-dev.yml up --build"
         ]
     },
     "extra": {
