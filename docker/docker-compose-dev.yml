@@ -2,12 +2,51 @@ services:
   db-diary:
     image: "postgres:16.0-alpine3.18"
     env_file:
-      - ./.env.dev
+      - .env
     container_name: ${DB_CONTAINER_NAME}
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_CONTAINER_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - db_log:/var/log/postgresql
     networks:
     - db-blog-network
+  app-diary:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    env_file:
+      - .env
+    container_name: ${APP_CONTAINER_NAME}
+    ports:
+      - "${APP_PORT}:80"
+    volumes:
+      - ../:/app
+      - ./app/php/php.ini:/opt/docker/etc/php/php.ini
+      - ./app/nginx/nginx.conf:/opt/docker/etc/nginx/vhost.conf
+      - ./app/nginx/upstream.conf:/opt/docker/etc/nginx/conf.d/10-php.conf
+      - ./scripts/entrypoint.sh:/opt/docker/bin/entrypoint.sh
+    depends_on:
+      - db-diary
+    networks:
+      - db-blog-network
+    working_dir: /app
+  vite-diary:
+    image: node:18-alpine
+    env_file:
+      - .env
+    container_name: ${VITE_CONTAINER_NAME}
+    working_dir: /app
+    volumes:
+      - ../:/app
+      - /app/node_modules
+    ports:
+      - "${VITE_PORT}:5173"
+    command: sh -c "npm install && npm run dev"
+    depends_on:
+      - app-diary
+    networks:
+      - db-blog-network
 
   pgAdmin-diary:
     image: dpage/pgadmin4:8.14
@@ -23,3 +62,9 @@ services:
 networks:
   db-blog-network:
     driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+  db_log:
+    driver: local
