@@ -6,6 +6,9 @@ services:
     container_name: ${DB_CONTAINER_NAME}
     ports:
       - "${DB_CONTAINER_PORT}:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - db_log:/var/log/postgresql
     networks:
     - db-blog-network
   app-diary:
@@ -59,3 +62,9 @@ services:
 networks:
   db-blog-network:
     driver: bridge
+
+volumes:
+  db_data:
+    driver: local
+  db_log:
+    driver: local
