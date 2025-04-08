@@ -14,10 +14,6 @@ php artisan view:clear
 # Rodar as migrações e seeds
 php artisan migrate --graceful --seed
 
-# Instalar dependências do npm e rodar a build
-# npm install
-# npm run dev
-
 # Ajustar permissões
 chown -R application:application storage/ bootstrap/cache
 chmod -R 755 storage/ bootstrap/cache
