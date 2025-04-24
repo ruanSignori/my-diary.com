@@ -1,4 +1,4 @@
-FROM webdevops/php-nginx:8.2-alpine
+FROM webdevops/php-nginx-dev:8.2-alpine
 
 # Permissões
 RUN chmod +x /opt/docker/bin/entrypoint.sh
