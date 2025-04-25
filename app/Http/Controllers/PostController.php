@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
+use Symfony\Component\HttpFoundation\Response;
 
 class PostController extends Controller
 {
@@ -39,7 +40,7 @@ class PostController extends Controller
           'content' => $data['postContent'],
         ]);
 
-        return redirect()->route('posts.show', [$user->name, $post->slug], 303)
+        return redirect()->route('posts.show', [$user->name, $post->slug], Response::HTTP_SEE_OTHER)
                          ->with('success', "Post $post->title criado com sucesso");
 
       } catch (\Exception $e) {

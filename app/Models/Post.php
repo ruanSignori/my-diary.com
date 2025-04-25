@@ -23,33 +23,51 @@ class Post extends Model
 
   public function user()
   {
-      return $this->belongsTo(User::class, 'author_id');
+    return $this->belongsTo(User::class, 'author_id');
   }
 
   protected function serializeDate(DateTimeInterface $date): string
   {
-      Carbon::setLocale('pt');
-      return Carbon::instance($date)->translatedFormat('d \d\e M \d\e Y');
+    Carbon::setLocale('pt');
+    return Carbon::instance($date)->translatedFormat('d \d\e M \d\e Y');
   }
 
   public static function findByOwnerAndSlug(string $userName, string $slug): Post
   {
     $data = self::select(
-        'posts.id',
-        'users.name as author',
-        'posts.title',
-        'posts.slug',
-        'posts.content',
-        DB::raw("EXTRACT(DOW FROM posts.created_at) as day_week_created"),
-        'posts.created_at',
-        'posts.updated_at'
-      )
+      'posts.id',
+      'users.name as author',
+      'posts.title',
+      'posts.slug',
+      'posts.content',
+      DB::raw("TO_CHAR(posts.created_at, 'TMDay') as day_week_created"),
+      'posts.created_at',
+      'posts.updated_at'
+    )
       ->join('users', 'posts.author_id', '=', 'users.id')
       ->where('users.name', $userName)
       ->where('posts.slug', $slug)
       ->first();
 
-    $data->day_week_created = self::getDayWeek($data->day_week_created);
+    return $data;
+  }
+
+  public static function findLastFiftyPosts(): array
+  {
+    $data = self::select(
+      'posts.id',
+      'users.name as author',
+      'posts.title',
+      'posts.slug',
+      DB::raw("TO_CHAR(posts.created_at, 'TMDay') as day_week_created"),
+      'posts.created_at',
+    )
+      ->join('users', 'posts.author_id', '=', 'users.id')
+      ->orderBy('created_at', 'desc')
+      ->take(50)
+      ->get()
+      ->toArray();
+
     return $data;
   }
 }

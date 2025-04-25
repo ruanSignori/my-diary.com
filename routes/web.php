@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/posts/{author}/{slug}', [PostController::class, 'show'])->name('posts.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -16,7 +17,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('posts', PostController::class)->except('show')->missing(function () {
         return Inertia::render('404');
     });
-    Route::get('/posts/{author}/{slug}', [PostController::class, 'show'])->name('posts.show');
 });
 
 require __DIR__.'/auth.php';
