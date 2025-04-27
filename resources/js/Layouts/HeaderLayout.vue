@@ -40,7 +40,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('home')"
                                     :active="route().current('home')"
                                 >
-                                    Home
+                                    Página inicial
                                 </NavLink>
 
                                 <template v-if="route().current('posts.show')">
@@ -57,16 +57,6 @@ const showingNavigationDropdown = ref(false);
                         <div class="hidden-6 sm:flex sm:items-center">
                             <!-- Conditional: User Logged In -->
                             <template v-if="$page.props.auth.user">
-                                <!-- Settings Dropdown -->
-
-                                <Link
-                                  :href="route('posts.create')"
-                                >
-                                  <PrimaryButton>
-                                    <Icon icon="ri:add-fill" width="18" height="18" />
-                                    Post
-                                  </PrimaryButton>
-                                </Link>
 
                                 <div class="relative ms-3">
                                     <Dropdown align="right" width="48">
@@ -87,13 +77,53 @@ const showingNavigationDropdown = ref(false);
                                             <DropdownItem
                                                 :href="route('profile.edit')"
                                             >
-                                                Profile
+                                              <Icon icon="line-md:account-small" width="18" height="18" />
+                                                Conta
                                             </DropdownItem>
+
+                                            <DropdownItem
+                                              :href="route('posts.create')"
+                                            >
+                                              <Icon icon="ri:add-fill" width="18" height="18" />
+                                                Novo post
+                                            </DropdownItem>
+
+                                            <DropdownItem>
+                                              <Dropdown align="center" width="48" nested>
+                                                <template #trigger>
+                                                  <span class="inline-flex rounded-md">
+                                                      <button
+                                                          class="inline-flex items-center rounded-md border border-transparent text-sm font-medium leading-4 transition duration-150 ease-in-out focus:outline-none"
+                                                      >
+                                                          Idioma
+                                                          <Icon icon="ri:arrow-down-s-line" width="18" height="18" />
+                                                      </button>
+                                                  </span>
+                                                </template>
+                                                <template #content>
+                                                  <DropdownItem
+                                                    class="flex items-center gap-2"
+                                                  >
+                                                    <Icon icon="circle-flags:br" width="20" height="20" />
+                                                    Português
+                                                  </DropdownItem>
+                                                  <DropdownItem
+                                                    class="flex items-center gap-2"
+                                                  >
+                                                    <Icon icon="circle-flags:us-um" width="20" height="20" />
+                                                    Inglês
+                                                  </DropdownItem>
+                                                </template>
+                                              </Dropdown>
+                                            </DropdownItem>
+                                            <hr>
                                             <DropdownItem
                                                 :href="route('logout')"
                                                 method="post"
                                                 as="button"
+                                                class="text-red-600 hover:bg-red-100"
                                             >
+                                                <Icon icon="line-md:logout" width="18" height="18" />
                                                 Sair
                                             </DropdownItem>
                                         </template>
@@ -143,7 +173,7 @@ const showingNavigationDropdown = ref(false);
                             :href="route('home')"
                             :active="route().current('home')"
                         >
-                            Home
+                            Página inicial
                         </ResponsiveNavLink>
                     </div>
 
