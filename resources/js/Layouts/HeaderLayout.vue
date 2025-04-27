@@ -7,8 +7,8 @@ import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdown.vue';
-import SecondaryButton from '@/Components/SecondaryButton.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
+import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
@@ -94,7 +94,7 @@ const showingNavigationDropdown = ref(false);
                                                 method="post"
                                                 as="button"
                                             >
-                                                Log Out
+                                                Sair
                                             </DropdownItem>
                                         </template>
                                     </Dropdown>
@@ -174,7 +174,7 @@ const showingNavigationDropdown = ref(false);
                                     method="post"
                                     as="button"
                                 >
-                                    Log Out
+                                    Sair
                                 </ResponsiveNavLink>
                             </div>
                         </template>
