@@ -2,11 +2,11 @@
 import { Icon } from '@iconify/vue';
 import { ref } from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import DropdownItem from '@/Components/DropdownItem.vue';
+import DropdownItem from '@/Components/Dropdowns/DropdownItem.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/vue3';
-import Dropdown from '@/Components/Dropdown.vue';
+import Dropdown from '@/Components/Dropdowns/Dropdown.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 
