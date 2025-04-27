@@ -42,6 +42,15 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Home
                                 </NavLink>
+
+                                <template v-if="route().current('posts.show')">
+                                    <NavLink
+                                        :href="route('posts.index')"
+                                        :active="route().current('posts.show')"
+                                    >
+                                        Post
+                                    </NavLink>
+                                </template>
                             </div>
                         </div>
 
