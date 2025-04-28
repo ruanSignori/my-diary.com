@@ -1,6 +1,5 @@
 import '../css/app.css';
 import './bootstrap';
-
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createApp, DefineComponent, h } from 'vue';
@@ -9,19 +8,35 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy';
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
-    title: (title) => `${title} - ${appName}`,
-    resolve: (name) =>
-        resolvePageComponent(
-            `./Pages/${name}.vue`,
-            import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
-        ),
-    setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .use(plugin)
-            .use(ZiggyVue)
-            .mount(el);
-    },
-    progress: {
-        color: 'var(--color-primary)',
-    },
+  title: (title) => `${title} - ${appName}`,
+  resolve: (name) =>
+    resolvePageComponent(
+      `./Pages/${name}.vue`,
+      import.meta.glob<DefineComponent>('./Pages/**/*.vue'),
+    ),
+  setup({ el, App, props, plugin }) {
+    const app = createApp({ render: () => h(App, props) });
+
+    // Registrando a diretiva v-click-outside
+    app.directive('click-outside', {
+      mounted(el, binding) {
+        el.clickOutsideEvent = (event: Event) => {
+          if (!(el === event.target || el.contains(event.target as Node))) {
+            binding.value();
+          }
+        };
+        document.addEventListener('click', el.clickOutsideEvent);
+      },
+      unmounted(el) {
+        document.removeEventListener('click', el.clickOutsideEvent);
+      }
+    });
+
+    app.use(plugin)
+      .use(ZiggyVue)
+      .mount(el);
+  },
+  progress: {
+    color: 'var(--color-primary)',
+  },
 });

@@ -10,10 +10,11 @@ import { ref } from 'vue';
 import axios from 'axios';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { getCsrfToken } from '@/Helpers/getCsrfToken';
+import MultiSelect from '@/Components/Inputs/MultiSelect.vue';
 
 type PostData = {
   postTitleInput: string;
-  postCategoryInput: string;
+  postCategoryInput: string[];
   postContent: string;
 };
 
@@ -21,21 +22,21 @@ const postTitleInput = ref<HTMLInputElement | null>(null);
 
 const form = useForm<PostData>({
     postTitleInput: '',
-    postCategoryInput: '',
+    postCategoryInput: [''],
     postContent: ''
 });
 
-  const handleSubmit = async () => {
-    await getCsrfToken();
-    const data: PostData = form.data();
+const handleSubmit = async () => {
+  await getCsrfToken();
+  const data: PostData = form.data();
 
-    try {
-      const response = await axios.post('/posts', data, { maxRedirects: 1});
-      window.location.href = response.request.responseURL;
-    } catch (error) {
-      console.error(error);
-    }
+  try {
+    const response = await axios.post('/posts', data, { maxRedirects: 1});
+    window.location.href = response.request.responseURL;
+  } catch (error) {
+    console.error(error);
   }
+}
 
 </script>
 
@@ -83,24 +84,25 @@ const form = useForm<PostData>({
               </div>
 
               <div class="max-w-sm">
+
                 <InputLabel
                   for="postCategory"
                   value="Categoria"
                   :input-required="true"
                 />
 
-                <TextInput
-                    id="postCategory"
-                    ref="postCategoryInput"
-                    type="text"
-                    class="mt-1 block w-full"
-                    required
-                    v-model="form.postCategoryInput"
+                <MultiSelect
+                  id="postCategory"
+                  :options="[
+                    { value: 'category1', label: 'Categoria 1' },
+                    { value: 'category2', label: 'Categoria 2' },
+                    { value: 'category3', label: 'Categoria 3' }
+                  ]"
+                  v-model="form.postCategoryInput"
+                  placeholder="Selecionar categorias"
+                  label="Selecionar categorias"
                 />
 
-                <InputError
-                    class="mt-2"
-                />
               </div>
 
               <div class="max-w-full">
