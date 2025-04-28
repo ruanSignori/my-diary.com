@@ -54,7 +54,7 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
-                        <div class="hidden-6 sm:flex sm:items-center">
+                        <div class="hidden-6 sm:flex sm:items-center hidden sm:block">
                             <!-- Conditional: User Logged In -->
                             <template v-if="$page.props.auth.user">
 
@@ -169,14 +169,17 @@ const showingNavigationDropdown = ref(false);
                                 <ResponsiveNavLink
                                     :href="route('profile.edit')"
                                 >
-                                    Perfil
+                                  <Icon icon="line-md:account-small" width="18" height="18" />
+                                  Perfil
                                 </ResponsiveNavLink>
                                 <ResponsiveNavLink
                                     :href="route('logout')"
                                     method="post"
                                     as="button"
+                                    class="text-red-600 hover:bg-red-100 hover:text-red-600"
                                 >
-                                    Sair
+                                  <Icon icon="line-md:logout" width="18" height="18" />
+                                  Sair
                                 </ResponsiveNavLink>
                             </div>
                         </template>
