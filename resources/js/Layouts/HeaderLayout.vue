@@ -88,34 +88,6 @@ const showingNavigationDropdown = ref(false);
                                                 Novo post
                                             </DropdownItem>
 
-                                            <DropdownItem>
-                                              <Dropdown align="center" width="48" nested>
-                                                <template #trigger>
-                                                  <span class="inline-flex rounded-md">
-                                                      <button
-                                                          class="inline-flex items-center rounded-md border border-transparent text-sm font-medium leading-4 transition duration-150 ease-in-out focus:outline-none"
-                                                      >
-                                                          Idioma
-                                                          <Icon icon="ri:arrow-down-s-line" width="18" height="18" />
-                                                      </button>
-                                                  </span>
-                                                </template>
-                                                <template #content>
-                                                  <DropdownItem
-                                                    class="flex items-center gap-2"
-                                                  >
-                                                    <Icon icon="circle-flags:br" width="20" height="20" />
-                                                    Português
-                                                  </DropdownItem>
-                                                  <DropdownItem
-                                                    class="flex items-center gap-2"
-                                                  >
-                                                    <Icon icon="circle-flags:us-um" width="20" height="20" />
-                                                    Inglês
-                                                  </DropdownItem>
-                                                </template>
-                                              </Dropdown>
-                                            </DropdownItem>
                                             <hr>
                                             <DropdownItem
                                                 :href="route('logout')"
