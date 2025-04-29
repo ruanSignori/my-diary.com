@@ -14,13 +14,13 @@ class CategoriesSeeder extends Seeder
     public function run(): void
     {
       DB::table('categories')->insert([
-        ['name' => 'Linux', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'Git', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'Redes', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'Programação', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'Banco de Dados', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'DevOps', 'created_at' => now(), 'updated_at' => now()],
-        ['name' => 'Segurança', 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Linux', 'is_default' => true ,'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Git', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Redes', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Programação', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Banco de Dados', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'DevOps', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
+        ['name' => 'Segurança', 'is_default' => true , 'created_at' => now(), 'updated_at' => now()],
     ]);
     }
 }
