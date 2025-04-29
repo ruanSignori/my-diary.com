@@ -6,7 +6,7 @@ import InputLabel from '@/Components/Inputs/InputLabel.vue';
 import RichTextEditor from '@/Components/Inputs/RichTextEditor.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
-import { ref } from 'vue';
+import { ref, defineProps } from 'vue';
 import axios from 'axios';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import { getCsrfToken } from '@/Helpers/getCsrfToken';
@@ -17,6 +17,13 @@ type PostData = {
   postCategoryInput: string[];
   postContent: string;
 };
+
+const props = defineProps<{
+  categories: {
+    value: string | number;
+    label: string;
+  }[];
+}>();
 
 const postTitleInput = ref<HTMLInputElement | null>(null);
 
@@ -93,11 +100,7 @@ const handleSubmit = async () => {
 
                 <MultiSelect
                   id="postCategory"
-                  :options="[
-                    { value: 'category1', label: 'Categoria 1' },
-                    { value: 'category2', label: 'Categoria 2' },
-                    { value: 'category3', label: 'Categoria 3' }
-                  ]"
+                  :options="props.categories"
                   v-model="form.postCategoryInput"
                   placeholder="Selecionar categorias"
                   label="Selecionar categorias"

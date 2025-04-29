@@ -34,11 +34,19 @@ const filteredOptions = computed(() => {
     return props.options;
   }
 
-  const query = searchQuery.value.toLowerCase();
+  const query = searchQuery.value.toLowerCase().trim();
   return props.options.filter(option =>
     option.label.toLowerCase().includes(query)
   );
 });
+
+const createOption = () => {
+  if (searchQuery.value.trim()) {
+    emit('create-option', searchQuery.value.trim());
+    searchQuery.value = '';
+    isOpen.value = false;
+  }
+};
 
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
@@ -127,7 +135,7 @@ const vClickOutside = {
 
     <!-- Dropdown menu -->
     <div v-if="isOpen"
-      class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
+      class="absolute z-10 w-full mt-1 bg-white border border-gray-300 shadow-lg rounded-md max-h-60 overflow-auto">
       <div class="sticky top-0 bg-white border-b border-gray-100">
         <input
           type="text"
@@ -140,11 +148,11 @@ const vClickOutside = {
       </div>
 
       <!-- Se não encontrou nenhum opção, permite criar uma-->
-      <div v-if="filteredOptions.length === 0" class="p-2 text-gray-500 text-start text-sm flex items-center gap-2"
-        @click.stop="addItem({
-          value: null,
-          label: searchQuery as string,
-        })">
+      <div
+        v-if="filteredOptions.length === 0"
+        class="p-2 text-gray-500 text-start text-sm flex items-center gap-2 cursor-pointer hover:bg-gray-100"
+        @click.stop="createOption"
+      >
         Criar
         <div class="rounded-md px-2 py-1 text-xs"
           :style="{ backgroundColor: colorPalette.bg, color: colorPalette.text }">
@@ -159,7 +167,7 @@ const vClickOutside = {
           <Checkbox :checked="isSelected(option)" name="selected_category" @click.stop="addItem(option)"
             aria-readonly="true" />
 
-          <!-- Tag colorida com o nome da opção -->
+          <!-- Tag com o nome da opção -->
           <div class="rounded-md px-2 py-1 text-xs"
             :style="{ backgroundColor: colorPalette.bg, color: colorPalette.text }">
             {{ option.label }}
