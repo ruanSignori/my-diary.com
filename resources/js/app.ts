@@ -16,22 +16,6 @@ createInertiaApp({
     ),
   setup({ el, App, props, plugin }) {
     const app = createApp({ render: () => h(App, props) });
-
-    // Registrando a diretiva v-click-outside
-    app.directive('click-outside', {
-      mounted(el, binding) {
-        el.clickOutsideEvent = (event: Event) => {
-          if (!(el === event.target || el.contains(event.target as Node))) {
-            binding.value();
-          }
-        };
-        document.addEventListener('click', el.clickOutsideEvent);
-      },
-      unmounted(el) {
-        document.removeEventListener('click', el.clickOutsideEvent);
-      }
-    });
-
     app.use(plugin)
       .use(ZiggyVue)
       .mount(el);

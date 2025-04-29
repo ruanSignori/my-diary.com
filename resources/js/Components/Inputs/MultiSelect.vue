@@ -6,7 +6,6 @@ import Checkbox from '@/Components/Inputs/Checkbox.vue';
 interface Option {
   value: string | number | null;
   label: string;
-  color?: string;
 }
 
 const props = defineProps<{
@@ -16,11 +15,11 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits(['update:modelValue', 'create-option']);
+const searchInputRef = ref<HTMLInputElement | null>(null);
 
 const isOpen = ref(false);
 const searchQuery = ref('');
 
-// Cores predefinidas no estilo Notion
 const colorPalette = {
   bg: 'var(--color-primary-lighter)',
   text: 'var(--color-primary-darker)'
@@ -45,7 +44,7 @@ const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
   if (isOpen.value) {
     setTimeout(() => {
-      document.querySelector('input')?.focus();
+      searchInputRef.value?.focus();
     }, 50);
   }
 };
@@ -95,6 +94,7 @@ const vClickOutside = {
   },
   unmounted: (el: any) => {
     document.removeEventListener('click', el.clickOutsideEvent);
+
   }
 };
 </script>
@@ -102,7 +102,7 @@ const vClickOutside = {
 <template>
   <div class="relative" v-click-outside="closeDropdown">
     <!-- Header do select -->
-    <div @click="toggleDropdown"
+    <div @click.stop="toggleDropdown"
       class="w-full mt-1 flex flex-wrap min-h-10 items-center p-2 bg-white border border-gray-300 shadow-sm rounded-md cursor-pointer focus:outline-none focus:border-[var(--color-primary)] focus:ring-[var(--color-primary)]">
       <!-- Ícone "Lista" à esquerda -->
       <div class="mr-2 text-gray-400" v-if="!selectedItems.length">
@@ -129,8 +129,14 @@ const vClickOutside = {
     <div v-if="isOpen"
       class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
       <div class="sticky top-0 bg-white border-b border-gray-100">
-        <input type="text" v-model="searchQuery" placeholder="Selecione uma opção ou crie uma"
-          class="w-full p-2 text-sm focus:outline-none border-none" @click.stop>
+        <input
+          type="text"
+          ref="searchInputRef"
+          v-model="searchQuery"
+          placeholder="Selecione uma opção ou crie uma"
+          class="w-full p-2 text-sm focus:outline-none border-none"
+          @click.stop
+        >
       </div>
 
       <!-- Se não encontrou nenhum opção, permite criar uma-->
