@@ -23,7 +23,8 @@ class StorePostRequest extends FormRequest
     {
       return [
         'postTitleInput' => 'required|string|max:255',
-        'postCategoryInput' => 'required|string',
+        'existingCategories' => 'required|array',
+        'newCategories' => 'nullable|array',
         'postContent' => 'required|string|min:10',
       ];
     }

@@ -48,9 +48,30 @@ class PostController extends Controller
         'title' => $data['postTitleInput'],
         'author_id' => $user->id,
         'slug' => Str::slug($data['postTitleInput']),
-        'category' => $data['postCategoryInput'],
         'content' => $data['postContent'],
       ]);
+
+      $categories = $data['existingCategories'];
+
+      // Criar e adicionar novas categorias
+      if (!empty($data['newCategories'])) {
+        foreach ($data['newCategories'] as $categoryName) {
+          $category = Category::where('name', 'ILIKE', $categoryName)->first();
+
+          if (!$category) {
+              $category = Category::create([
+                  'name' => $categoryName,
+              ]);
+          }
+
+          $categories[] = $category->id;
+        }
+      }
+
+      // Associa as categorias ao post
+      foreach ($categories as $categoryId) {
+        $post->categories()->attach($categoryId);
+      }
 
       return redirect()->route('posts.show', [$user->name, $post->slug], Response::HTTP_SEE_OTHER)
         ->with('success', "Post $post->title criado com sucesso");
