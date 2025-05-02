@@ -20,8 +20,8 @@ return new class extends Migration
 
     Schema::create('posts_categories', function (Blueprint $table) {
       $table->id('id');
-      $table->foreignId('category_id')->constrained('categories', 'id')->onDelete('cascade');
       $table->foreignId('post_id')->constrained('posts', 'id')->onDelete('cascade');
+      $table->foreignId('category_id')->constrained('categories', 'id')->onDelete('cascade');
       $table->primary(['category_id', 'post_id']);
     });
   }
