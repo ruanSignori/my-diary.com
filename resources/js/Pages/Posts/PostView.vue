@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/HeaderLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { PostView } from '@/types/Post';
 import { Head } from '@inertiajs/vue3';
 

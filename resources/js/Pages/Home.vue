@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HeaderLayout from '@/Layouts/HeaderLayout.vue';
+import HeaderLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { PostSimpleView } from '@/types/Post';
 import { Head } from '@inertiajs/vue3';
 

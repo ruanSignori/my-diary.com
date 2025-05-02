@@ -14,6 +14,7 @@ const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
+      <h1>opa</h1>
     <div>
         <div class="min-h-screen bg-bg">
             <nav

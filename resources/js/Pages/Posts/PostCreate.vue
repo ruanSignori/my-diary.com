@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AuthenticatedLayout from '@/Layouts/HeaderLayout.vue';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import TextInput from '@/Components/Inputs/TextInput.vue';
 import InputError from '@/Components/Inputs/InputError.vue';
 import InputLabel from '@/Components/Inputs/InputLabel.vue';
