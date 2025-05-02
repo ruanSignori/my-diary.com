@@ -40,10 +40,11 @@ class PostController extends Controller
    */
   public function store(StorePostRequest $request)
   {
-    $data = $request->validated();
     $user = User::find(Auth::id());
+    $data = $request->validated();
 
     try {
+
       $post = Post::create([
         'title' => $data['postTitleInput'],
         'author_id' => $user->id,

@@ -7,9 +7,7 @@ import RichTextEditor from '@/Components/Inputs/RichTextEditor.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
 import { ref, defineProps, watch } from 'vue';
-import axios from 'axios';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
-import { getCsrfToken } from '@/Helpers/getCsrfToken';
 import MultiSelect from '@/Components/Inputs/MultiSelect.vue';
 
 type PostData = {
@@ -42,22 +40,20 @@ const form = useForm<PostData>({
 
 // Manipula o processamento de seleção de categorias
 watch(selectedCategories, (newVal) => {
-  // Separa categorias existentes (números) das novas (strings)
   const existingCats: number[] = [];
   const newCats: string[] = [];
 
   newVal.forEach(category => {
     if (typeof category === 'number') {
-      // É uma categoria existente com ID numérico
       existingCats.push(category);
-    } else if (typeof category === 'string') {
-      // Verifica se é um número em formato string
+    }
+
+    if (typeof category === 'string') {
       const numValue = Number(category);
+
       if (!isNaN(numValue) && String(numValue) === category) {
-        // É um ID numérico em formato string
         existingCats.push(numValue);
       } else {
-        // É uma nova categoria (texto)
         newCats.push(category);
       }
     }
@@ -69,55 +65,22 @@ watch(selectedCategories, (newVal) => {
 });
 
 const createOption = (label: string) => {
-  // Adiciona à lista local para exibição
   localCategories.value.push({
     value: label,
     label: label
   });
 
-  // Adiciona à lista de selecionados
   selectedCategories.value.push(label);
 
-  // Adiciona diretamente às novas categorias também
   if (!form.newCategories.includes(label)) {
     form.newCategories.push(label);
   }
 };
 
-const handleSubmit = async () => {
-  await getCsrfToken();
-
-  const existingCats: number[] = [];
-  const newCats: string[] = [];
-
-  selectedCategories.value.forEach(category => {
-    if (typeof category === 'number') {
-      existingCats.push(category);
-    } else if (typeof category === 'string') {
-      const numValue = Number(category);
-
-      if (!isNaN(numValue) && String(numValue) === category) {
-        existingCats.push(numValue);
-      } else {
-        newCats.push(category);
-      }
-    }
-  });
-
-  // Atualiza diretamente o objeto form
-  form.existingCategories = existingCats;
-  form.newCategories = newCats;
-
-  const formData = form.data();
-
-  try {
-    const response = await axios.post('/posts', formData, { maxRedirects: 1 });
-    window.location.href = response.request.responseURL;
-  } catch (error) {
-    console.error('Erro ao enviar formulário:', error);
-    console.error('Dados que tentaram ser enviados:', formData);
-  }
+const handleSubmit = () => {
+  form.post(route('posts.store'));
 };
+
 </script>
 
 <template>
@@ -152,7 +115,7 @@ const handleSubmit = async () => {
                   autofocus
                   v-model="form.postTitleInput"
                 />
-                <InputError class="mt-2" />
+                <InputError class="mt-2" :message="form.errors.postTitleInput" />
               </div>
               <div class="max-w-sm">
                 <InputLabel
@@ -168,6 +131,7 @@ const handleSubmit = async () => {
                   label="Selecionar categorias"
                   @create-option="createOption"
                 />
+                <InputError class="mt-2" :message="form.errors.existingCategories" />
               </div>
               <div class="max-w-full">
                 <InputLabel
@@ -180,9 +144,17 @@ const handleSubmit = async () => {
                   id="postContent"
                   v-model="form.postContent"
                 />
+                <InputError class="mt-2" :message="form.errors.postContent" />
               </div>
-              <PrimaryButton type="submit">
-                Salvar
+              <PrimaryButton type="submit" :disabled="form.processing">
+
+              <span v-if="form.processing">
+                Enviando...
+              </span>
+              <span v-else>
+                Criar Post
+              </span>
+
               </PrimaryButton>
             </form>
           </section>
