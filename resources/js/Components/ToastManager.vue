@@ -42,7 +42,7 @@ onMounted(() => {
 
 <template>
   <Toaster
-    position="bottom-right"
+    position="bottom-center"
     :duration="5000"
     richColors
     :closeOnClick="true"
