@@ -54,6 +54,10 @@ class Post extends Model
       ->where('posts.slug', $slug)
       ->first();
 
+    if ($data) {
+      $data->load('categories');
+    }
+
     return $data;
   }
 

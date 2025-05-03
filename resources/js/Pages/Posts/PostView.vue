@@ -27,6 +27,17 @@ const props = defineProps<{ post: PostView }>();
         </div>
       </div>
 
+       <!-- Categorias do post -->
+       <div v-if="props.post.categories && props.post.categories.length > 0" class="flex flex-wrap gap-2 max-w-xl">
+        <span
+          v-for="category in props.post.categories"
+          :key="category.id"
+          class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm ring-1 ring-gray-200"
+        >
+          {{ category.name }}
+        </span>
+      </div>
+
       <hr>
 
       <div v-html="props.post.content" class="post-content"></div>

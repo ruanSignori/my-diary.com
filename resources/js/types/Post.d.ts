@@ -1,3 +1,5 @@
+import { Categories } from "./Categories";
+
 export interface PostView {
   id: number;
   title: string;
@@ -7,6 +9,7 @@ export interface PostView {
   created_at: string;
   updated_at: string;
   author: string;
+  categories: Categories[]
 }
 
 export interface PostSimpleView {
