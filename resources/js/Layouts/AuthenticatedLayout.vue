@@ -9,12 +9,12 @@ import { Link } from '@inertiajs/vue3';
 import Dropdown from '@/Components/Dropdowns/Dropdown.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
+import Toast from '@/Components/ToastManager.vue';
 
 const showingNavigationDropdown = ref(false);
 </script>
 
 <template>
-      <h1>opa</h1>
     <div>
         <div class="min-h-screen bg-bg">
             <nav
@@ -55,7 +55,7 @@ const showingNavigationDropdown = ref(false);
                             </div>
                         </div>
 
-                        <div class="hidden-6 sm:flex sm:items-center hidden sm:block">
+                        <div class="hidden-6 sm:flex sm:items-center hidden">
                             <!-- Conditional: User Logged In -->
                             <template v-if="$page.props.auth.user">
 
@@ -206,7 +206,8 @@ const showingNavigationDropdown = ref(false);
 
             <!-- Page Content -->
             <main>
-                <slot />
+              <Toast />
+              <slot />
             </main>
         </div>
     </div>

@@ -75,7 +75,11 @@ class PostController extends Controller
       }
 
       return redirect()->route('posts.show', [$user->name, $post->slug], Response::HTTP_SEE_OTHER)
-        ->with('success', "Post $post->title criado com sucesso");
+                        ->with([
+                          'flash.message' => 'Post criado com sucesso!',
+                          'flash.type' => 'success',
+                        ]);
+
     } catch (\Exception $e) {
       return response()->json([
         'message' => 'Error: ' . $e->getMessage(),
@@ -96,7 +100,6 @@ class PostController extends Controller
 
     return Inertia::render('Posts/PostView', [
       'post' => $post,
-      session('success') ? 'success' : null,
     ]);
   }
 
