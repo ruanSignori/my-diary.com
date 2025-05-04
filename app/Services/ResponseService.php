@@ -11,10 +11,19 @@ class ResponseService
    */
   public static function success($data = [], $code = 200, $headers = []): JsonResponse
   {
-      return response()->json([
-          'status' => 'success',
-          'code' => $code,
-          'data' => $data,
-      ], $code, $headers);
+    return response()->json([
+      'status' => 'success',
+      'code' => $code,
+      'data' => $data,
+    ], $code, $headers);
+  }
+
+  public static function error($message = 'Error', $code = 500, $headers = []): JsonResponse
+  {
+    return response()->json([
+      'status' => 'error',
+      'code' => $code,
+      'message' => $message,
+    ], $code, $headers);
   }
 }
