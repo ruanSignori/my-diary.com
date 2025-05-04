@@ -8,6 +8,7 @@ export interface PostView {
   day_week_created: string;
   created_at: string;
   updated_at: string;
+  author_id: number;
   author: string;
   categories: Categories[]
 }

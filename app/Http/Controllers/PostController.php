@@ -60,9 +60,9 @@ class PostController extends Controller
           $category = Category::where('name', 'ILIKE', $categoryName)->first();
 
           if (!$category) {
-              $category = Category::create([
-                  'name' => $categoryName,
-              ]);
+            $category = Category::create([
+              'name' => $categoryName,
+            ]);
           }
 
           $categories[] = $category->id;
@@ -75,15 +75,18 @@ class PostController extends Controller
       }
 
       return redirect()->route('posts.show', [$user->name, $post->slug], Response::HTTP_SEE_OTHER)
-                        ->with([
-                          'flash.message' => 'Post criado com sucesso!',
-                          'flash.type' => 'success',
-                        ]);
-
+        ->with([
+          'flash.message' => 'Post criado com sucesso!',
+          'flash.type' => 'success',
+        ]);
     } catch (\Exception $e) {
-      return response()->json([
-        'message' => 'Error: ' . $e->getMessage(),
-      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+      $msg = $e->getMessage();
+
+      return redirect()->route('posts.create')
+        ->with([
+          'flash.message' => 'Erro ao criar o post: ' . $msg,
+          'flash.type' => 'error',
+        ]);
     }
   }
 
@@ -106,9 +109,9 @@ class PostController extends Controller
   /**
    * Show the form for editing the specified resource.
    */
-  public function edit(string $id)
+  public function edit(string $author, string $slug)
   {
-    //
+
   }
 
   /**
@@ -124,6 +127,28 @@ class PostController extends Controller
    */
   public function destroy(string $id)
   {
-    //
+    $post = Post::find($id);
+
+    if (!$post) {
+      Inertia::render('404')->with([
+        'flash.message' => 'Post não encontrado!',
+        'flash.type' => 'error',
+      ]);
+    }
+
+    if (Auth::user()->id !== $post->author_id) {
+      return Inertia::render('404')->with([
+        'flash.message' => 'Você não tem permissão para deletar este post!',
+        'flash.type' => 'error',
+      ]);
+    }
+
+    $post->delete();
+
+    return redirect()->route('home')
+      ->with([
+        'flash.message' => 'Post deletado com sucesso!',
+        'flash.type' => 'success',
+      ]);
   }
 }

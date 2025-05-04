@@ -41,6 +41,7 @@ class Post extends Model
   {
     $data = self::select(
       'posts.id',
+      'posts.author_id',
       'users.name as author',
       'posts.title',
       'posts.slug',
