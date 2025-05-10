@@ -30,7 +30,7 @@ class PostController extends Controller
       ])
       ->toArray();
 
-    return Inertia::render('Posts/PostCreate', [
+    return Inertia::render('Posts/PostForm', [
       'categories' => $categories,
     ]);
   }
@@ -133,7 +133,7 @@ class PostController extends Controller
       ])
       ->toArray();
 
-    return Inertia::render('Posts/PostCreate', [
+    return Inertia::render('Posts/PostForm', [
       'post' => $post,
       'categories' => $categories,
       'selectedCategories' => $selectedCategories,
