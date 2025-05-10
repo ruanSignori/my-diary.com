@@ -6,36 +6,44 @@ import InputLabel from '@/Components/Inputs/InputLabel.vue';
 import RichTextEditor from '@/Components/Inputs/RichTextEditor.vue';
 import { useForm } from '@inertiajs/vue3';
 import { Head } from '@inertiajs/vue3';
-import { ref, defineProps, watch } from 'vue';
+import { ref, defineProps, watch, onMounted } from 'vue';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import MultiSelect from '@/Components/Inputs/MultiSelect.vue';
-
-type PostData = {
-  postTitleInput: string;
-  existingCategories: number[];  // Categorias existentes (IDs)
-  newCategories: string[];       // Novas categorias (labels)
-  postContent: string;
-};
+import { PostData } from '@/types/Post';
+import { PostView } from '@/types/Post';
 
 const props = defineProps<{
+  post?: PostView;
   categories: {
+    value: string | number;
+    label: string;
+  }[];
+  selectableCategories?: {
     value: string | number;
     label: string;
   }[];
 }>();
 
-const postTitleInput = ref<HTMLInputElement | null>(null);
 
+const postTitleInput = ref<HTMLInputElement | null>(null);
 const selectedCategories = ref<(string | number)[]>([]); // Categorias selecionadas (mix de IDs e strings)
 const newCategories = ref<string[]>([]); // Categorias inseridas pelo usuário (client-side)
-
 const localCategories = ref([...props.categories]); // Categorias disponíveis para seleção
 
 const form = useForm<PostData>({
-  postTitleInput: '',
-  existingCategories: [],
+  postTitleInput: props.post?.title || '',
+  existingCategories: props.post?.categories?.map(cat => cat.id) as unknown as number[] || [],
   newCategories: [],
-  postContent: ''
+  postContent: props.post?.content || ''
+});
+
+// Inicializar as categorias selecionadas com as categorias existentes do post
+onMounted(() => {
+  if (props.post && props.post.categories) {
+    // Extrair e adicionar as IDs das categorias do post às categorias selecionadas
+    const postCategoryIds = props.post.categories.map(cat => cat.id);
+    selectedCategories.value = [...postCategoryIds];
+  }
 });
 
 // Manipula o processamento de seleção de categorias
@@ -47,10 +55,8 @@ watch(selectedCategories, (newVal) => {
     if (typeof category === 'number') {
       existingCats.push(category);
     }
-
     if (typeof category === 'string') {
       const numValue = Number(category);
-
       if (!isNaN(numValue) && String(numValue) === category) {
         existingCats.push(numValue);
       } else {
@@ -69,26 +75,28 @@ const createOption = (label: string) => {
     value: label,
     label: label
   });
-
   selectedCategories.value.push(label);
-
   if (!form.newCategories.includes(label)) {
     form.newCategories.push(label);
   }
 };
 
 const handleSubmit = () => {
-  form.post(route('posts.store'));
+  // Ajustar a rota com base se estamos criando ou editando
+  if (props.post) {
+    form.put(route('posts.update', props.post.id));
+  } else {
+    form.post(route('posts.store'));
+  }
 };
-
 </script>
 
 <template>
-  <Head title="Novo post" />
+  <Head :title="props.post ? 'Editar post' : 'Novo post'" />
   <AuthenticatedLayout>
     <template #header>
       <h2 class="text-xl font-semibold leading-tight text-gray-800">
-        Criar nova postagem
+        {{ props.post ? 'Editar postagem' : 'Criar nova postagem' }}
       </h2>
     </template>
     <div class="py-12">
@@ -147,14 +155,12 @@ const handleSubmit = () => {
                 <InputError class="mt-2" :message="form.errors.postContent" />
               </div>
               <PrimaryButton type="submit" :disabled="form.processing">
-
-              <span v-if="form.processing">
-                Enviando...
-              </span>
-              <span v-else>
-                Criar Post
-              </span>
-
+                <span v-if="form.processing">
+                  Enviando...
+                </span>
+                <span v-else>
+                  {{ props.post ? 'Atualizar Post' : 'Criar Post' }}
+                </span>
               </PrimaryButton>
             </form>
           </section>

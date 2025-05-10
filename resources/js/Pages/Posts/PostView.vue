@@ -44,7 +44,7 @@ const deletePost = () => {
               </SecondaryButton>
             </template>
             <template #content>
-              <DropdownItem as="button" :href="route('posts.edit', props.post.id)">
+              <DropdownItem :href="route('posts.edit', [props.post.author, props.post.slug])">
                 <Icon icon="ri:edit-2-fill" width="18" height="18" />
                 Editar
               </DropdownItem>

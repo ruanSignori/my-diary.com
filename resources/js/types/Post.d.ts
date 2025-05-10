@@ -22,3 +22,10 @@ export interface PostSimpleView {
   created_at: string;
   author: string;
 }
+
+export type PostData = {
+  postTitleInput: string;
+  existingCategories: number[];  // Categorias existentes (IDs)
+  newCategories: string[];       // Novas categorias (labels)
+  postContent: string;
+};

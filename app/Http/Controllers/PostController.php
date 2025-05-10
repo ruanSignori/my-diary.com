@@ -111,7 +111,33 @@ class PostController extends Controller
    */
   public function edit(string $author, string $slug)
   {
+    $post = Post::findByOwnerAndSlug($author, $slug);
 
+    if (!$post) {
+      return Inertia::render('404');
+    }
+
+    $categories = Category::select('id', 'name')
+      ->get()
+      ->map(fn($category) => [
+        'value' => $category->id,
+        'label' => $category->name,
+      ])
+      ->toArray();
+
+    $selectedCategories = $post->categories()
+      ->get()
+      ->map(fn($category) => [
+        'value' => $category->id,
+        'label' => $category->name,
+      ])
+      ->toArray();
+
+    return Inertia::render('Posts/PostCreate', [
+      'post' => $post,
+      'categories' => $categories,
+      'selectedCategories' => $selectedCategories,
+    ]);
   }
 
   /**
