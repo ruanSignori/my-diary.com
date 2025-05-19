@@ -24,11 +24,10 @@ const props = defineProps<{
   }[];
 }>();
 
-
 const postTitleInput = ref<HTMLInputElement | null>(null);
 const selectedCategories = ref<(string | number)[]>([]); // Categorias selecionadas (mix de IDs e strings)
 const newCategories = ref<string[]>([]); // Categorias inseridas pelo usuário (client-side)
-const localCategories = ref([...props.categories]); // Categorias disponíveis para seleção
+const allCategories = ref([...props.categories]);
 
 const form = useForm<PostData>({
   postTitleInput: props.post?.title || '',
@@ -71,18 +70,19 @@ watch(selectedCategories, (newVal) => {
 });
 
 const createOption = (label: string) => {
-  localCategories.value.push({
+  allCategories.value.push({
     value: label,
     label: label
   });
+
   selectedCategories.value.push(label);
+
   if (!form.newCategories.includes(label)) {
     form.newCategories.push(label);
   }
 };
 
 const handleSubmit = () => {
-  // Ajustar a rota com base se estamos criando ou editando
   if (props.post) {
     form.put(route('posts.update', props.post.id));
   } else {
@@ -133,7 +133,7 @@ const handleSubmit = () => {
                 />
                 <MultiSelect
                   id="postCategory"
-                  :options="localCategories"
+                  :options="allCategories"
                   v-model="selectedCategories"
                   placeholder="Selecionar categorias"
                   label="Selecionar categorias"

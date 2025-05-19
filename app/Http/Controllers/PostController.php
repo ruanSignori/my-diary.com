@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Posts\StorePostRequest;
+use App\Http\Requests\Posts\FormPostRequest;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -38,7 +38,7 @@ class PostController extends Controller
   /**
    * Store a newly created resource in storage.
    */
-  public function store(StorePostRequest $request)
+  public function store(FormPostRequest $request)
   {
     $user = User::find(Auth::id());
     $data = $request->validated();
@@ -143,9 +143,53 @@ class PostController extends Controller
   /**
    * Update the specified resource in storage.
    */
-  public function update(Request $request, string $id)
+  public function update(FormPostRequest $request, string $id)
   {
-    //
+    $data = $request->validated();
+    $post = Post::find($id);
+
+    if (!$post) {
+      return Inertia::render('404');
+    }
+
+    try {
+      $post->update([
+        'title' => $data['postTitleInput'],
+        'slug' => Str::slug($data['postTitleInput']),
+        'content' => $data['postContent'],
+      ]);
+
+      $categories = $data['existingCategories'];
+
+       // Criar e adicionar novas categorias
+      if (!empty($data['newCategories'])) {
+        foreach ($data['newCategories'] as $categoryName) {
+          $category = Category::where('name', 'ILIKE', $categoryName)->first();
+
+          if (!$category) {
+            $category = Category::create([
+              'name' => $categoryName,
+            ]);
+          }
+
+          $categories[] = $category->id;
+        }
+      }
+
+      $post->categories()->sync($categories);
+
+      return redirect()->route('posts.show', [$post->user->name, $post->slug], Response::HTTP_SEE_OTHER)
+        ->with([
+          'flash.message' => 'Post atualizado com sucesso!',
+          'flash.type' => 'success',
+        ]);
+    } catch (\Exception $e) {
+      return redirect()->route('posts.edit', [$post->user->name, $post->slug])
+        ->with([
+          'flash.message' => 'Erro ao atualizar o post: ' . $e->getMessage(),
+          'flash.type' => 'error',
+        ]);
+    }
   }
 
   /**

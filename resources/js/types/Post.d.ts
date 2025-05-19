@@ -25,7 +25,7 @@ export interface PostSimpleView {
 
 export type PostData = {
   postTitleInput: string;
-  existingCategories: number[];  // Categorias existentes (IDs)
+  existingCategories: string[];  // Categorias existentes (IDs)
   newCategories: string[];       // Novas categorias (labels)
   postContent: string;
 };
