@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Gate;
 
 class PostController extends Controller
 {
@@ -117,6 +118,8 @@ class PostController extends Controller
       return Inertia::render('404');
     }
 
+    Gate::authorize('modify-post', $post);
+
     $categories = Category::select('id', 'name')
       ->get()
       ->map(fn($category) => [
@@ -151,6 +154,8 @@ class PostController extends Controller
     if (!$post) {
       return Inertia::render('404');
     }
+
+    Gate::authorize('modify-post', $post);
 
     try {
       $post->update([
@@ -206,7 +211,7 @@ class PostController extends Controller
       ]);
     }
 
-    if (Auth::user()->id !== $post->author_id) {
+    if (Gate::denies('modify-post', $post)) {
       return Inertia::render('404')->with([
         'flash.message' => 'Você não tem permissão para deletar este post!',
         'flash.type' => 'error',
