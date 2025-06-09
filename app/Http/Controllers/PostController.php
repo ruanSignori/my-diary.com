@@ -102,6 +102,12 @@ class PostController extends Controller
       return Inertia::render('404');
     }
 
+     $post->load([
+        'comments.user',
+        'comments.parent',
+        'comments.children.user'
+    ]);
+
     return Inertia::render('Posts/PostView', [
       'post' => $post,
     ]);

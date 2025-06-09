@@ -4,13 +4,27 @@ import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Dropdown from '@/Components/Dropdowns/Dropdown.vue';
 import DropdownItem from '@/Components/Dropdowns/DropdownItem.vue';
+import Comments from '@/Layouts/CommentsLayout.vue';
 import { PostView } from '@/types/Post';
 import { ref } from 'vue';
 import { Head, router } from '@inertiajs/vue3';
 import Modal from '@/Components/Modal.vue';
 import DangerButton from '@/Components/Buttons/DangerButton.vue';
 
-const props = defineProps<{ post: PostView }>();
+interface PostWithComments extends PostView {
+  comments: Array<{
+    id: number;
+    content: string;
+    created_at: string;
+    user: {
+      id: number;
+      name: string;
+    };
+    parent_id: number | null;
+  }>;
+}
+
+const props = defineProps<{ post: PostWithComments }>();
 
 const confirmingPostDeletion = ref(false);
 
@@ -101,6 +115,9 @@ const deletePost = () => {
 
       <hr>
       <div v-html="props.post.content" class="post-content"></div>
+
+      <!-- Seção de comentários -->
+      <Comments :post-id="props.post.id" :comments="props.post.comments" />
     </section>
   </AuthenticatedLayout>
 </template>
