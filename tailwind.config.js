@@ -33,6 +33,7 @@ export default {
                 dark: 'var(--color-primary-dark)',
                 darker: 'var(--color-primary-darker)',
                 lighter: 'var(--color-primary-lighter)',
+                lightest: 'var(--color-primary-lightest)',
                 desaturated: 'var(--color-primary-desaturated)',
               },
               secondary: 'var(--color-secondary)',
