@@ -2,6 +2,7 @@
 import { Icon } from '@iconify/vue';
 import { ref, computed } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
+import { formatDateToBr } from '@/Helpers/dateHelper';
 import PrimaryButton from '@/Components/Buttons/PrimaryButton.vue';
 import SecondaryButton from '@/Components/Buttons/SecondaryButton.vue';
 import DangerButton from '@/Components/Buttons/DangerButton.vue';
@@ -78,7 +79,10 @@ const submitReply = (parentId: number) => {
     content: replyContent.value,
     parent_id: parentId,
   }, {
-    onSuccess: () => {
+    preserveState: true,
+    preserveScroll: true,
+    onSuccess: (response) => {
+  
       replyContent.value = '';
       replyingTo.value = null;
     }
@@ -142,16 +146,6 @@ const canModifyComment = (comment: Comment) => {
 
 const isCommentDeleted = (comment: Comment) => {
   return comment.deleted_at !== null && comment.deleted_at !== undefined;
-};
-
-const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  });
 };
 
 // Função para renderizar todos os comentários de forma linear com indentação
@@ -224,7 +218,7 @@ const flatComments = computed(() => {
             <div class="flex items-center gap-2 text-gray-500">
               <Icon icon="ri:delete-bin-line" width="16" height="16" />
               <span class="text-sm italic">Este comentário foi excluído</span>
-              <span class="text-xs text-gray-400">{{ formatDate(comment.deleted_at as string) }}</span>
+              <span class="text-xs text-gray-400">{{ formatDateToBr(comment.deleted_at as string) }}</span>
             </div>
           </div>
 
@@ -240,7 +234,7 @@ const flatComments = computed(() => {
                 </div>
                 <div>
                   <p class="text-sm font-medium bg-primary-lightest text-primary-dark py-0.5 px-1.5 rounded-lg">{{ comment.user.name }}</p>
-                  <p class="text-xs text-gray-500">{{ formatDate(comment.created_at) }}</p>
+                  <p class="text-xs text-gray-500">{{ formatDateToBr(comment.created_at) }}</p>
                 </div>
               </div>
 
