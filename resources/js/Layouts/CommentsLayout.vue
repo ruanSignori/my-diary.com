@@ -65,6 +65,8 @@ const submitComment = () => {
     post_id: props.postId,
     content: newComment.value,
   }, {
+    preserveScroll: true,
+    preserveState: true,
     onSuccess: () => {
       newComment.value = '';
     }
@@ -82,7 +84,6 @@ const submitReply = (parentId: number) => {
     preserveState: true,
     preserveScroll: true,
     onSuccess: (response) => {
-  
       replyContent.value = '';
       replyingTo.value = null;
     }
